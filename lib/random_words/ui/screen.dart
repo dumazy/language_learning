@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:language_learning/random_words/controller.dart';
 import 'package:provider/provider.dart';
+
+import 'score.dart';
 
 class RandomWordsScreen extends StatelessWidget {
   const RandomWordsScreen({Key? key}) : super(key: key);
@@ -10,49 +13,105 @@ class RandomWordsScreen extends StatelessWidget {
     return Provider<RandomWordsController>(
       create: (_) => RandomWordsController(),
       dispose: (_, controller) => controller.dispose(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Random words'),
+      child: const Scaffold(
+        body: _Content(),
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _Header(),
+        Expanded(
+          child: Center(
+            child: _Body(),
+          ),
         ),
-        body: _Body(),
+        SizedBox(
+          height: 120,
+        ),
+      ],
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Align(
+          alignment: Alignment.centerRight,
+          child: Score(),
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        _Title(),
+      ],
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+      ),
+      child: Text(
+        'Translate the following words:',
+        style: GoogleFonts.ubuntu(
+          fontSize: 28,
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body({
-    Key? key,
-  }) : super(key: key);
+  const _Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _controller =
         Provider.of<RandomWordsController>(context, listen: false);
     return StreamBuilder<String>(
-      stream: _controller.wordToTranslate,
-      builder: (_, snapshot) {
-        if (!snapshot.hasData) return const _Loading();
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _Score(),
-            Center(
-              child: Text(
-                snapshot.requireData,
-                style: TextStyle(
-                  fontSize: 28,
+        stream: _controller.wordToTranslate,
+        builder: (_, snapshot) {
+          if (!snapshot.hasData) return const _Loading();
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  snapshot.requireData,
+                  style: TextStyle(
+                    fontSize: 28,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            _AnswerInput(),
-          ],
-        );
-      },
-    );
+              SizedBox(
+                height: 20,
+              ),
+              _AnswerInput(),
+            ],
+          );
+        });
   }
 }
 
@@ -107,26 +166,6 @@ class _Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: CircularProgressIndicator(),
-    );
-  }
-}
-
-class _Score extends StatelessWidget {
-  const _Score({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final _controller =
-        Provider.of<RandomWordsController>(context, listen: false);
-    return StreamBuilder<int>(
-      stream: _controller.score,
-      initialData: _controller.currentScore,
-      builder: (context, snapshot) {
-        final score = snapshot.requireData;
-        return Center(
-          child: Text('Score: $score'),
-        );
-      },
     );
   }
 }

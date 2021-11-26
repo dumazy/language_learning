@@ -6,11 +6,11 @@ import 'package:language_learning/random_words/repository.dart';
 class RandomWordsController {
   final RandomWordsRepository _repository;
 
-  final _controller = StreamController<Translation>();
+  final _controller = StreamController<Translation>.broadcast();
   late Translation _currentTranslation;
   int _currentIndex = 0;
 
-  final _scoreController = StreamController<int>();
+  final _scoreController = StreamController<int>.broadcast();
   int _points = 0;
   int get currentScore => _points;
   Stream<int> get score => _scoreController.stream;

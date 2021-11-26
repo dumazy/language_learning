@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:language_learning/random_words/screen.dart';
+import 'package:language_learning/random_words/ui/screen.dart';
 
 void main() {
   runApp(const MyApp());

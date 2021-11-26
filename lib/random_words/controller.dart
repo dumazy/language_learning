@@ -37,14 +37,14 @@ class RandomWordsController {
     _controller.add(_currentTranslation);
   }
 
-  Future<void> enterAnswer(String answer) async {
+  Future<bool> enterAnswer(String answer) async {
+    bool correct = false;
     if (answer == _currentTranslation.translated) {
-      print('correct answer');
+      correct = true;
       _addPoint();
-    } else {
-      print('wrong answer');
     }
     _moveToIndex(++_currentIndex);
+    return correct;
   }
 
   void _addPoint() {

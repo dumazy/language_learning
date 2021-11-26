@@ -20,6 +20,7 @@ class RandomWordsRepositoryImpl implements RandomWordsRepository {
         origin: item['origin'],
         translated: item['translated'],
       );
-    }).toList();
+    }).toList()
+      ..shuffle();
   }
 }

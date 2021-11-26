@@ -8,11 +8,9 @@ Show a word in the language we to learn ask for the translation.
 
 Todo:
 
-- Shuffle words
+- Add data
 - Handle index out of bounds
 - Display progress within the exercise
-- Add data
-- UI!!!!
 
 Ideas:
 
